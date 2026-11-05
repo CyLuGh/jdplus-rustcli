@@ -11,16 +11,16 @@ use crate::jdplus_main_ws_v1::{
 
 #[derive(Debug, Clone, PartialEq)]
 struct Ts {
-    pub name: std::string::String,
+    pub name: String,
     pub moniker: TsMoniker,
     pub data: TsData,
-    pub metadata: HashMap<std::string::String, std::string::String>
+    pub metadata: HashMap<String, String>
 }
 
 impl Default for Ts {
     fn default() -> Self {
         Self {
-            name: std::string::String::from("Default"),
+            name: String::from("Default"),
             moniker: TsMoniker::default(),
             data: TsData::default(),
             metadata: HashMap::new(),

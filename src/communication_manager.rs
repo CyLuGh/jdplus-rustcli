@@ -12,7 +12,7 @@ type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
 #[derive(Debug, PartialEq)]
 pub struct CommunicationManager {
-    url: std::string::String,
+    url: String,
 }
 
 impl CommunicationManager {
@@ -20,7 +20,7 @@ impl CommunicationManager {
         CommunicationManagerBuilder::new()
     }
 
-    pub async fn get_version(&self) -> std::string::String {
+    pub async fn get_version(&self) -> String {
         let Ok(mut client) = TsFunctionsClient::connect(self.url.clone()).await else {
             return String::from("Unknown version: unable to contact server");
         };
@@ -59,7 +59,7 @@ impl CommunicationManager {
                 .collect(),
         };
 
-        let mut client = TsFunctionsClient::connect(self.url.clone()).await;
+        let client = TsFunctionsClient::connect(self.url.clone()).await;
 
         let dto = client?
             .build_ts_data(input)
@@ -69,9 +69,7 @@ impl CommunicationManager {
 
         match dto.result {
             Some(build_ts_data_result_dto::Result::Output(output)) => {
-                let series = output
-                    .series
-                    .ok_or("Missing series")?;
+                let series = output.series.ok_or("Missing series")?;
 
                 let data: TsData = series.try_into()?;
 
@@ -87,17 +85,17 @@ impl CommunicationManager {
 
 #[derive(Default)]
 pub struct CommunicationManagerBuilder {
-    url: std::string::String,
+    url: String,
 }
 
 impl CommunicationManagerBuilder {
     pub fn new() -> CommunicationManagerBuilder {
         CommunicationManagerBuilder {
-            url: std::string::String::from("http://localhost:4566"),
+            url: String::from("http://localhost:4566"),
         }
     }
 
-    pub fn url(mut self, url: std::string::String) -> CommunicationManagerBuilder {
+    pub fn url(mut self, url: String) -> CommunicationManagerBuilder {
         self.url = url;
         self
     }

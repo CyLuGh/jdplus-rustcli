@@ -4,15 +4,15 @@
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct TsMoniker {
-    pub source: std::string::String,
-    pub id: std::string::String,
+    pub source: String,
+    pub id: String,
 }
 
 impl Default for TsMoniker {
     fn default() -> Self {
         Self {
-            source: std::string::String::from("Default"),
-            id: std::string::String::from("Default"),
+            source: String::from("Default"),
+            id: String::from("Default"),
         }
     }
 }
